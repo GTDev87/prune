@@ -1,0 +1,17 @@
+{
+  "name": "squash",
+  "description": "library for converting json into table using properties",
+  "version": "0.0.1",
+  "private": false,
+  "main": "./lib/squash.js",
+  "author": "Tyler Parker and Gregory Thompson",
+  "keywords": ["json"],
+  "dependencies": {
+    "underscore": "latest"
+  },
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/GTDev87/squash.git"
+  },
+  "engines": { "node": "*" }
+}
