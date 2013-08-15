@@ -3,11 +3,25 @@
   "description": "library for converting json into table using properties",
   "version": "0.0.1",
   "private": false,
-  "main": "./lib/squash.js",
+  "main": "./src/squash.js",
   "author": "Tyler Parker and Gregory Thompson",
   "keywords": ["json"],
   "dependencies": {
-    "underscore": "latest"
+    "underscore": "latest",
+    "sproutid": "latest"
+  },
+  "devDependencies": {
+    "jasmine-node": "latest",
+    "grunt-jslint": "latest",
+    "grunt": "latest",
+    "deamdify": "latest",
+    "decomponentify": "latest",
+    "deglobalify": "latest",
+    "grunt-browserify": "latest",
+    "grunt-contrib-jasmine": "latest",
+    "grunt-template-jasmine-requirejs": "latest",
+    "grunt-jasmine-node": "latest",
+    "debowerify": "latest"
   },
   "repository" : {
     "type": "git",
