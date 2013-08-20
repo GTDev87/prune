@@ -7,21 +7,16 @@
   "author": "Tyler Parker and Gregory Thompson",
   "keywords": ["json"],
   "dependencies": {
-    "underscore": "latest",
+    "lodash": "latest",
     "sproutid": "latest"
   },
   "devDependencies": {
     "jasmine-node": "latest",
     "grunt-jslint": "latest",
-    "grunt": "latest",
-    "deamdify": "latest",
-    "decomponentify": "latest",
-    "deglobalify": "latest",
     "grunt-browserify": "latest",
     "grunt-contrib-jasmine": "latest",
     "grunt-template-jasmine-requirejs": "latest",
-    "grunt-jasmine-node": "latest",
-    "debowerify": "latest"
+    "grunt-jasmine-node": "latest"
   },
   "repository" : {
     "type": "git",

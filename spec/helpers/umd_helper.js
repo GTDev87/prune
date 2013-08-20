@@ -6,23 +6,29 @@
 function dependencies(dependencyObject) {
     'use strict';
 
-    var depNames = Object.keys(dependencyObject),
-        depPaths = depNames.map(function (depName) {return dependencyObject[depName]; });
+    function extractSpecificPath(depPath, loadType) {
+        if (typeof depPath === 'object') {
+            return depPath[loadType];
+        }
 
-    console.log("depNames = %j", depNames);
-    console.log("depPaths = %j", depPaths);
+        return depPath;
+    }
+
+    var depNames, depPaths;
+
+    depNames = Object.keys(dependencyObject);
+    depPaths = depNames.map(function (depName) {return dependencyObject[depName]; });
 
     function init(root, factory) {
 
         if (typeof module === 'object' && module.exports) {
             // Node/CommonJS
             console.log("NODE MODE");
-
-            factory.apply(root, depPaths.map(function (depPath) {return require(depPath); }));
+            factory.apply(root, depPaths.map(function (depPath) {return require(extractSpecificPath(depPath, 'node')); }));
         } else if (typeof define === 'function' && define.amd) {
             // AMD
             console.log("AMD MODE");
-            define(depPaths, factory);
+            define(depPaths.map(function (depPath) { return extractSpecificPath(depPath, 'browser'); }), factory);
         } else {
             // Browser globals
             console.log("GLOBALS MODE");

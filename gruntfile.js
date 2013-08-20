@@ -44,11 +44,10 @@ module.exports = function (grunt) {
                 src: './src/squash.js',
                 dest: './build/squash.js',
                 options: {
-                    transform: ['debowerify', 'decomponentify', 'deamdify', 'deglobalify'],
                     standalone: "squash"
-                },
+                }
             },
-        },
+        }
     });
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-browserify');
