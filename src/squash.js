@@ -14,76 +14,54 @@ function jsonFunc(jsonData) {
                 var locKey = locationColumnTreePairs[0],
                     subLocColumnTree = locationColumnTreePairs[1],
                     subColumnTreeType = typeof subLocColumnTree,
-                    returnObj = {},
-                    privoutput;
+                    returnObj = {};
 
-                if ("object" === subColumnTreeType) {
-                    privoutput = privateFindElements(jsonDataTree[locKey], subLocColumnTree);
-                    return privoutput;
-                }
+                if ("object" === subColumnTreeType) {return privateFindElements(jsonDataTree[locKey], subLocColumnTree); }
 
                 returnObj[subLocColumnTree] = jsonDataTree[locKey];
                 return returnObj;
             })
-            .reduce(function (combinedObject, obj) {
-                return _.extend(combinedObject, obj);
-            }, {});
+            .reduce(function (combinedObject, obj) {return _.extend(combinedObject, obj); }, {});
     }
 
     function getTableFromJsonLevel(uriData, columnTree, jsonLevel) {
         var headTail = sproutid.separateUriHeadAndTail(uriData),
             head = headTail[0],
             tail = headTail[1],
-            colValues,
-            colData;
+            nonHeadColTree,
+            nonHeadVals,
+            colData,
+            dataObj = {};
 
-        // console.log("uriData = %j", uriData);
-        // console.log("columnTree = %j", columnTree);
-        // console.log("jsonLevel = %j", jsonLevel);
-
-        // console.log("head: " + head);
-
-        // console.log("tail: " + tail);
-
-        if (tail === "/") {return; }
-
-        //console.log("hit the " + head);
-        if (head === "*") {
-
-            //console.log("jsonLevel %j", jsonLevel);
-            _.each(jsonLevel, function (nextLevelJson) {
-                //console.log("* iteration tail = " + tail);
-                return getTableFromJsonLevel(tail, columnTree["*"], nextLevelJson);
-            });
-            //iterate over everything
+        if (tail === "/") {
+            dataObj[columnTree[head]] = jsonLevel[head];
+            colData = [dataObj];
+        } else if (head === "*") {
+            colData = _.chain(jsonLevel)
+                .map(function (nextLevelJson) {
+                    return getTableFromJsonLevel(tail, columnTree["*"], nextLevelJson);
+                })
+                .flatten(true)
+                .value();
+                //iterate over everything
         } else {
-
-            colValues = _(jsonLevel)
-                .pairs()
-                .select(function (keyLevelPair) {
-                    var key = keyLevelPair[0];
-                        //, level = keyLevelPair[1];
-                    // console.log("key = %j", key);
-                    // console.log("level = %j", level);
-                    return key !== head;
-                })
-                .map(function (keyLevelPair) {
-                    var key = keyLevelPair[0],
-                        level = keyLevelPair[1];
-
-                    // console.log("key = %j", key);
-                    // console.log("level = %j", level);
-                    return privateFindElements(level, columnTree[key]);
-                })
-                .flatten()
-                .object();
-
             colData = getTableFromJsonLevel(tail, columnTree[head], jsonLevel[head]);
-            //add element for each data point returned
-
-            return _.extend(colValues, colData);
-
         }
+
+        nonHeadColTree = _.chain(columnTree)
+            .pairs()
+            .select(function (keyLevelPair) {
+                if (head === "*") {return false; }
+                return keyLevelPair[0] !== head;
+            })
+            .object()
+            .value();
+
+        nonHeadVals = privateFindElements(jsonLevel, nonHeadColTree);
+
+        //add element for each data point returned
+        return _.map(colData, function (dataPoint) {return _.extend(dataPoint, nonHeadVals); });
+
     }
 
     //public functions

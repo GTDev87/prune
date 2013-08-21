@@ -52,7 +52,7 @@ dependencies({
             }
         ];
 
-        xit("should select the data from json into csv format using array of selection", function () {
+        it("should select the data from json into csv format using array of selection", function () {
             var urlArray, colNames;
 
             urlArray = [
@@ -73,30 +73,29 @@ dependencies({
                 {
                     text: "This is a Tweet",
                     name: "Greg",
-                    "user id": "123123123",
+                    "user id": 42,
                     "follower count": 42
                 },
                 {
                     text: "Lisa!!!!",
                     name: "Tyler",
-                    "user id": "234234234",
+                    "user id": 43,
                     "follower count": 123
                 },
                 {
                     text: "Evidence or Implimentation",
                     name: "David",
-                    "user id": "424242424242",
+                    "user id": 349,
                     "follower count": 9001
                 }
 
             ]);
         });
 
-        xit("should select the data from json into csv format using json selection", function () {
+        it("should select the data from json into csv format using json selection", function () {
             var dataSelection, columnTree;
 
             dataSelection = "/*/text";
-
 
             columnTree = {
                 "*": {
@@ -113,19 +112,19 @@ dependencies({
                 {
                     text: "This is a Tweet",
                     name: "Greg",
-                    "user id": "123123123",
+                    "user id": 42,
                     "follower count": 42
                 },
                 {
                     text: "Lisa!!!!",
                     name: "Tyler",
-                    "user id": "234234234",
+                    "user id": 43,
                     "follower count": 123
                 },
                 {
                     text: "Evidence or Implimentation",
                     name: "David",
-                    "user id": "424242424242",
+                    "user id": 349,
                     "follower count": 9001
                 }
 
@@ -155,9 +154,6 @@ dependencies({
                 },
                 followers_count: "follower count"
             };
-
-            console.log("userJsonData = %j", userJsonData);
-            console.log("columnTree = %j", columnTree);
 
             expect(squash.json(userJsonData).findElements(columnTree, userJsonData)).toEqual({
                 text: "Lisa!!!!",
