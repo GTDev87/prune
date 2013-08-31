@@ -87,7 +87,7 @@ function jsonFunc(jsonData) {
 }
 
 module.exports = {
-    name: "squash",
+    name: "prune",
     version: "0.0.1",
     json: jsonFunc
 };

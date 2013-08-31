@@ -19,14 +19,14 @@ module.exports = function (grunt) {
         },
         jasmine: {
             browserGlobal: {
-                src: ['./build/squash.js'],
+                src: ['./build/prune.js'],
                 options: {
                     specs: './spec/**/*.spec.js',
                     helpers : './spec/helpers/*.js'
                 }
             },
             browserAMD: {
-                src: ['./build/squash.js'],
+                src: ['./build/prune.js'],
                 options: {
                     specs: './spec/**/*.spec.js',
                     helpers : './spec/helpers/*.js',
@@ -41,10 +41,10 @@ module.exports = function (grunt) {
         },
         browserify: {
             all: {
-                src: './src/squash.js',
-                dest: './build/squash.js',
+                src: './src/prune.js',
+                dest: './build/prune.js',
                 options: {
-                    standalone: "squash"
+                    standalone: "prune"
                 }
             },
         }

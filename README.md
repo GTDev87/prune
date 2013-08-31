@@ -1,1 +1,1 @@
-This is the squash project.  It is a library to convert json into table using properties.
+This is the prune project.  It is a library to convert json into table using properties.

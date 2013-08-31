@@ -7,11 +7,11 @@
 /*global dependencies */
 
 dependencies({
-    'squash': {
-        'browser': '../../build/squash',
-        'node': '../../src/squash'
+    'prune': {
+        'browser': '../../build/prune',
+        'node': '../../src/prune'
     }
-}).init(this, function (squash) {
+}).init(this, function (prune) {
     'use strict';
 
     describe("uriTree", function () {
@@ -69,7 +69,7 @@ dependencies({
                 "follower count"
             ];
 
-            expect(squash.json(jsonData).getTableWithArray(urlArray, colNames)).toEqual([
+            expect(prune.json(jsonData).getTableWithArray(urlArray, colNames)).toEqual([
                 {
                     text: "This is a Tweet",
                     name: "Greg",
@@ -108,7 +108,7 @@ dependencies({
                 }
             };
 
-            expect(squash.json(jsonData).getTableWithJson(dataSelection, columnTree)).toEqual([
+            expect(prune.json(jsonData).getTableWithJson(dataSelection, columnTree)).toEqual([
                 {
                     text: "This is a Tweet",
                     name: "Greg",
@@ -155,7 +155,7 @@ dependencies({
                 followers_count: "follower count"
             };
 
-            expect(squash.json(userJsonData).findElements(columnTree, userJsonData)).toEqual({
+            expect(prune.json(userJsonData).findElements(columnTree, userJsonData)).toEqual({
                 text: "Lisa!!!!",
                 name: "Tyler",
                 "user id": 43,
