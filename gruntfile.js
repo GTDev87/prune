@@ -46,7 +46,7 @@ module.exports = function (grunt) {
                 options: {
                     standalone: "prune"
                 }
-            },
+            }
         }
     });
     grunt.loadNpmTasks('grunt-contrib-jasmine');

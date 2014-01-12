@@ -1,11 +1,14 @@
 /*jslint node: true, nomen: true */
 'use strict';
 
-var _ = require('lodash'),
-    sproutid = require('sproutid');
+var _ = require('lodash');
 
 
-function jsonFunc(jsonData) {
+function jsonFunc(jsonData, opts) {
+    var options = opts || {},
+        delimiter = options.delimiter || "/",
+        wildcard = options.wildcard || "*",
+        sproutid = require('sproutid').options({delimiter: delimiter});
 
     function privateFindElements(jsonDataTree, columnTree) {
         return _.chain(columnTree)
@@ -21,7 +24,8 @@ function jsonFunc(jsonData) {
                 returnObj[subLocColumnTree] = jsonDataTree[locKey];
                 return returnObj;
             })
-            .reduce(function (combinedObject, obj) {return _.extend(combinedObject, obj); }, {});
+            .reduce(function (combinedObject, obj) {return _.extend(combinedObject, obj); }, {})
+            .value();
     }
 
     function getTableFromJsonLevel(uriData, columnTree, jsonLevel) {
@@ -33,27 +37,23 @@ function jsonFunc(jsonData) {
             colData,
             dataObj = {};
 
-        if (tail === "/") {
+        if (tail === delimiter) {
             dataObj[columnTree[head]] = jsonLevel[head];
             colData = [dataObj];
-        } else if (head === "*") {
+        } else if (head === wildcard) {
             colData = _.chain(jsonLevel)
                 .map(function (nextLevelJson) {
-                    return getTableFromJsonLevel(tail, columnTree["*"], nextLevelJson);
+                    return getTableFromJsonLevel(tail, columnTree[wildcard], nextLevelJson);
                 })
                 .flatten(true)
                 .value();
-                //iterate over everything
         } else {
             colData = getTableFromJsonLevel(tail, columnTree[head], jsonLevel[head]);
         }
 
         nonHeadColTree = _.chain(columnTree)
             .pairs()
-            .select(function (keyLevelPair) {
-                if (head === "*") {return false; }
-                return keyLevelPair[0] !== head;
-            })
+            .select(function (keyLevelPair) {return head === wildcard ? false : keyLevelPair[0] !== head; })
             .object()
             .value();
 
@@ -68,9 +68,6 @@ function jsonFunc(jsonData) {
     function findElements(columnTree) {return privateFindElements(jsonData, columnTree); }
 
     function getTableWithJson(uriData, columnTree) {
-        // console.log("uriData = %j", uriData);
-        // console.log("columnTree = %j", columnTree);
-
         return getTableFromJsonLevel(uriData, columnTree, jsonData);
     }
 

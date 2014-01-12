@@ -92,6 +92,46 @@ dependencies({
             ]);
         });
 
+        it("should honor delimiter and wildcard options", function () {
+            var urlArray, colNames;
+
+            urlArray = [
+                '.^.text',
+                '.^.user.name',
+                '.^.user.id',
+                '.^.followers_count'
+            ];
+
+            colNames = [
+                "text",
+                "name",
+                "user id",
+                "follower count"
+            ];
+
+            expect(prune.json(jsonData, {delimiter: ".", wildcard: "^"}).getTableWithArray(urlArray, colNames)).toEqual([
+                {
+                    text: "This is a Tweet",
+                    name: "Greg",
+                    "user id": 42,
+                    "follower count": 42
+                },
+                {
+                    text: "Lisa!!!!",
+                    name: "Tyler",
+                    "user id": 43,
+                    "follower count": 123
+                },
+                {
+                    text: "Evidence or Implimentation",
+                    name: "David",
+                    "user id": 349,
+                    "follower count": 9001
+                }
+
+            ]);
+        });
+
         it("should select the data from json into csv format using json selection", function () {
             var dataSelection, columnTree;
 
