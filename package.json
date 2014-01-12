@@ -1,7 +1,7 @@
 {
   "name": "prune",
   "description": "library for converting json into table using properties",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "main": "./src/prune.js",
   "author": "Tyler Parker and Gregory Thompson",
